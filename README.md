@@ -22,3 +22,21 @@ Cloud Task Manager to aplikacja webowa umożliwiająca zarządzanie zadaniami w 
 | Frontend | Azure Static Web Apps |
 | Backend API | Azure App Service |
 | Baza danych | Azure Cosmos DB |
+
+## Status projektu
+
+- [x] Artefakt 1: Architektura i struktura folderów
+- [x] Artefakt 2: Środowisko wielokontenerowe uruchomione lokalnie (Docker Compose)
+
+## Uruchomienie lokalne
+
+Aby uruchomić projekt lokalnie, należy wykonać polecenie:
+
+```bash
+docker compose up ```
+
+Aplikacja działa w środowisku wielokontenerowym i składa się z trzech usług:
+
+- frontend
+- backend
+- baza danych Azure Cosmos DB Emulator
