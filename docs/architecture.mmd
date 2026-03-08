@@ -1,0 +1,15 @@
+flowchart LR
+
+User[User]
+
+Frontend[Frontend
+React + Vite]
+
+Backend[Backend API
+Node.js Express]
+
+Database[(Azure Cosmos DB)]
+
+User -->|HTTPS| Frontend
+Frontend -->|REST API| Backend
+Backend -->|SDK| Database
