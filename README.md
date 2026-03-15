@@ -1,42 +1,44 @@
 # Cloud Task Manager
 
-**Student:** Krystian Janczak 
-**Number albumu:** 89571
+Cloud Task Manager to prosta aplikacja webowa umożliwiająca wyświetlanie listy zadań.  
+Frontend aplikacji został zbudowany przy użyciu React i Vite, natomiast backend oparty jest o Node.js i Express.  
+Aplikacja komunikuje się z API przy użyciu biblioteki Axios. Projekt wykorzystuje Docker oraz Docker Compose do uruchomienia kontenerów aplikacji.
 
-## Opis projektu
-Cloud Task Manager to aplikacja webowa umożliwiająca zarządzanie zadaniami w chmurze. Użytkownicy mogą dodawać, edytować, usuwać oraz oznaczać zadania jako wykonane za pomocą interfejsu webowego. Aplikacja wykorzystuje architekturę front-end i back-end połączoną poprzez REST API.
+## Technologie
 
-## Stos technologiczny
+- React + Vite
+- Node.js + Express
+- Axios
+- Azure Cosmos DB Emulator
+- Docker / Docker Compose
 
-| Warstwa | Technologia |
-|------|------------|
-| Frontend | React 19 + Vite |
-| Backend | Node.js 24 + Express |
-| Baza danych | Azure Cosmos DB |
-| Chmura | Microsoft Azure |
+## Uruchomienie projektu
 
-## Mapowanie usług Azure
+Projekt można uruchomić przy użyciu Docker Compose:
 
-| Komponent aplikacji | Usługa Azure |
-|---------------------|-------------|
-| Frontend | Azure Static Web Apps |
-| Backend API | Azure App Service |
-| Baza danych | Azure Cosmos DB |
 
-## Status projektu
+docker compose up
 
-- [x] Artefakt 1: Architektura i struktura folderów
-- [x] Artefakt 2: Środowisko wielokontenerowe uruchomione lokalnie (Docker Compose)
 
-## Uruchomienie lokalne
+Frontend aplikacji będzie dostępny pod adresem:
 
-Aby uruchomić projekt lokalnie, należy wykonać polecenie:
 
-```bash
-docker compose up ```
+http://localhost:8080
 
-Aplikacja działa w środowisku wielokontenerowym i składa się z trzech usług:
 
-- frontend
-- backend
-- baza danych Azure Cosmos DB Emulator
+Backend API:
+
+
+http://localhost:8081/tasks
+
+
+## Komunikacja z API
+
+Frontend pobiera dane z backendu przy użyciu metody GET oraz biblioteki Axios.  
+Adres API jest przechowywany w zmiennej środowiskowej:
+
+
+VITE_API_URL=http://localhost:8081
+
+
+Dzięki temu adres backendu nie jest wpisany na stałe w kodzie aplikacji.
