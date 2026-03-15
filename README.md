@@ -1,44 +1,64 @@
 # Cloud Task Manager
 
-Cloud Task Manager to prosta aplikacja webowa umożliwiająca wyświetlanie listy zadań.  
-Frontend aplikacji został zbudowany przy użyciu React i Vite, natomiast backend oparty jest o Node.js i Express.  
-Aplikacja komunikuje się z API przy użyciu biblioteki Axios. Projekt wykorzystuje Docker oraz Docker Compose do uruchomienia kontenerów aplikacji.
+Cloud Task Manager to aplikacja do zarządzania zadaniami oparta na architekturze klient–serwer. Projekt składa się z backendowego REST API oraz frontendowego interfejsu użytkownika. Backend został zbudowany w technologii ASP.NET Core, natomiast dane przechowywane są w bazie Microsoft SQL Server.
+
+## Funkcjonalności
+
+Aplikacja umożliwia:
+- tworzenie nowych zadań
+- przeglądanie listy zadań
+- edytowanie istniejących zadań
+- oznaczanie zadań jako wykonane
+- usuwanie zadań
+
+Backend udostępnia REST API pozwalające wykonywać operacje CRUD na zadaniach.
 
 ## Technologie
 
-- React + Vite
-- Node.js + Express
-- Axios
-- Azure Cosmos DB Emulator
+- ASP.NET Core Web API
+- Entity Framework Core
+- Microsoft SQL Server Express
 - Docker / Docker Compose
+- Swagger (OpenAPI)
+- Git
 
-## Uruchomienie projektu
+## REST API
 
-Projekt można uruchomić przy użyciu Docker Compose:
+API udostępnia endpointy umożliwiające zarządzanie zadaniami:
 
+- `GET /api/tasks` – pobranie wszystkich zadań
+- `GET /api/tasks/{id}` – pobranie pojedynczego zadania
+- `POST /api/tasks` – utworzenie nowego zadania
+- `PUT /api/tasks/{id}` – aktualizacja zadania
+- `DELETE /api/tasks/{id}` – usunięcie zadania
 
-docker compose up
+Endpointy można testować przy użyciu Swagger UI.
 
+## Integracja z bazą danych
 
-Frontend aplikacji będzie dostępny pod adresem:
+Backend korzysta z Entity Framework Core do komunikacji z bazą danych Microsoft SQL Server.  
+Połączenie z bazą skonfigurowane jest przy użyciu connection string w pliku `appsettings.json`.
 
+Kontroler `TasksController` wykorzystuje kontekst bazy danych `AppDbContext` do wykonywania operacji CRUD.
 
-http://localhost:8080
+Dodatkowo zastosowano walidację danych przy użyciu atrybutów DataAnnotations, takich jak:
 
+- `[Required]`
+- `[StringLength]`
 
-Backend API:
+API zwraca odpowiednie kody HTTP:
 
+- **200 OK** – poprawne pobranie danych
+- **201 Created** – utworzenie rekordu
+- **204 No Content** – poprawna aktualizacja lub usunięcie
+- **400 Bad Request** – niepoprawne dane wejściowe
+- **404 Not Found** – brak zasobu
 
-http://localhost:8081/tasks
+## Status artefaktów
 
+- [x] Artefakt 1 – konfiguracja projektu i środowiska
+- [x] Artefakt 2 – konfiguracja Docker i uruchomienie aplikacji
+- [x] Artefakt 3 – implementacja backend API
+- [x] Artefakt 4 – REST API, integracja z bazą danych, kontrolery oraz walidacja danych
 
-## Komunikacja z API
-
-Frontend pobiera dane z backendu przy użyciu metody GET oraz biblioteki Axios.  
-Adres API jest przechowywany w zmiennej środowiskowej:
-
-
-VITE_API_URL=http://localhost:8081
-
-
-Dzięki temu adres backendu nie jest wpisany na stałe w kodzie aplikacji.
+Projekt jest wersjonowany przy użyciu systemu kontroli wersji Git.
