@@ -1,16 +1,44 @@
-# React + Vite
+# Cloud Task Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Cloud Task Manager to prosta aplikacja webowa umożliwiająca wyświetlanie listy zadań.  
+Frontend aplikacji został zbudowany przy użyciu React i Vite, natomiast backend oparty jest o Node.js i Express.  
+Aplikacja komunikuje się z API przy użyciu biblioteki Axios. Projekt wykorzystuje Docker oraz Docker Compose do uruchomienia kontenerów aplikacji.
 
-Currently, two official plugins are available:
+## Technologie
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React + Vite
+- Node.js + Express
+- Axios
+- Azure Cosmos DB Emulator
+- Docker / Docker Compose
 
-## React Compiler
+## Uruchomienie projektu
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Projekt można uruchomić przy użyciu Docker Compose:
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+docker compose up
+
+
+Frontend aplikacji będzie dostępny pod adresem:
+
+
+http://localhost:8080
+
+
+Backend API:
+
+
+http://localhost:8081/tasks
+
+
+## Komunikacja z API
+
+Frontend pobiera dane z backendu przy użyciu metody GET oraz biblioteki Axios.  
+Adres API jest przechowywany w zmiennej środowiskowej:
+
+
+VITE_API_URL=http://localhost:8081
+
+
+Dzięki temu adres backendu nie jest wpisany na stałe w kodzie aplikacji.

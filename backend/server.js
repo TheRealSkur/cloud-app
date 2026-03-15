@@ -1,12 +1,20 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+app.use(cors());
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Cloud Task Manager API is running");
+const tasks = [
+  { id: 1, title: "Zrobić frontend", completed: false },
+  { id: 2, title: "Połączyć z backendem", completed: true },
+  { id: 3, title: "Dodać Dockera", completed: false }
+];
+
+app.get("/tasks", (req, res) => {
+  res.json(tasks);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(8081, () => {
+  console.log("Backend działa na porcie 8081");
 });
