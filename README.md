@@ -1,6 +1,6 @@
 # Cloud Task Manager
 
-Cloud Task Manager to aplikacja do zarządzania zadaniami oparta na architekturze klient–serwer. Projekt składa się z backendowego REST API oraz frontendowego interfejsu użytkownika. Backend został zbudowany w technologii ASP.NET Core, natomiast dane przechowywane są w bazie Microsoft SQL Server.
+Cloud Task Manager to aplikacja do zarządzania zadaniami oparta na architekturze klient–serwer. Projekt składa się z backendowego REST API oraz frontendowego interfejsu użytkownika. Backend został zbudowany w technologii Node.js, natomiast dane przechowywane są w bazie Azure Cosmos DB.
 
 ## Funkcjonalności
 
@@ -48,7 +48,6 @@ Endpointy można testować przy użyciu Swagger UI.
 
 ## Integracja z bazą danych
 
-Backend korzysta z Entity Framework Core do komunikacji z bazą danych Microsoft SQL Server.  
 Połączenie z bazą skonfigurowane jest przy użyciu connection string w pliku `appsettings.json`.
 
 Kontroler `TasksController` wykorzystuje kontekst bazy danych `AppDbContext` do wykonywania operacji CRUD.
@@ -78,6 +77,15 @@ Zadania można dodawać bezpośrednio w aplikacji React poprzez formularz, któr
 
 Projekt korzysta z Node.js, dlatego nie używa migracji (jak w .NET). Struktura danych w Cosmos DB jest obsługiwana bezpośrednio przez kod aplikacji.
 
+## Deployment (Azure)
+
+Aplikacja została wdrożona w środowisku chmurowym Microsoft Azure z wykorzystaniem:
+
+- Azure Container Apps – hosting backendu
+- Azure Container Registry – przechowywanie obrazów Docker
+- Azure Cosmos DB – baza danych NoSQL - https://cloud-app-krystian.documents.azure.com:443/
+
+
 ## Status artefaktów
 
 - [x] Artefakt 1 – konfiguracja projektu i środowiska
@@ -85,6 +93,7 @@ Projekt korzysta z Node.js, dlatego nie używa migracji (jak w .NET). Struktura 
 - [x] Artefakt 3 – implementacja backend API
 - [x] Artefakt 4 – REST API, integracja z bazą danych, kontrolery oraz walidacja danych
 - [x] Artefakt 5 – przygotowanie aplikacji do środowiska chmurowego
+- [x] Artefakt 6 - Część wdrożona, baza działa ale całość nie funkcjonuje na ten moment. 
 
 
 Projekt jest wersjonowany przy użyciu systemu kontroli wersji Git.
