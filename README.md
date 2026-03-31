@@ -77,13 +77,21 @@ Zadania można dodawać bezpośrednio w aplikacji React poprzez formularz, któr
 
 Projekt korzysta z Node.js, dlatego nie używa migracji (jak w .NET). Struktura danych w Cosmos DB jest obsługiwana bezpośrednio przez kod aplikacji.
 
-## Deployment (Azure)
+## 6.Deployment (Azure)
 
 Aplikacja została wdrożona w środowisku chmurowym Microsoft Azure z wykorzystaniem:
 
-- Azure Container Apps – hosting backendu
+- Azure Container Apps – hosting backendu - endpointy:
+- tasks https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/tasks
+- health https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/health
 - Azure Container Registry – przechowywanie obrazów Docker
 - Azure Cosmos DB – baza danych NoSQL - https://cloud-app-krystian.documents.azure.com:443/
+<img width="1884" height="631" alt="Zrzut ekranu 2026-03-31 102827" src="https://github.com/user-attachments/assets/84b4c618-c68f-4651-8804-fbc64d424acc" />
+<img width="1027" height="212" alt="Zrzut ekranu 2026-03-31 103039" src="https://github.com/user-attachments/assets/daea3a8a-7ee6-4b5f-a670-435b1fb98746" />
+<img width="846" height="176" alt="Zrzut ekranu 2026-03-31 103052" src="https://github.com/user-attachments/assets/d072d1ff-bf3d-4978-8360-cbd16ca4af3d" />
+<img width="1552" height="163" alt="image" src="https://github.com/user-attachments/assets/87c90361-be82-45a5-8ca0-a898bef5397d" />
+
+
 
 
 ## Status artefaktów
@@ -93,7 +101,7 @@ Aplikacja została wdrożona w środowisku chmurowym Microsoft Azure z wykorzyst
 - [x] Artefakt 3 – implementacja backend API
 - [x] Artefakt 4 – REST API, integracja z bazą danych, kontrolery oraz walidacja danych
 - [x] Artefakt 5 – przygotowanie aplikacji do środowiska chmurowego
-- [x] Artefakt 6 - Część wdrożona, baza działa ale całość nie funkcjonuje na ten moment. 
+- [x] Artefakt 6 - Wdrożenie aplikacji do Azure.
 
 
 Projekt jest wersjonowany przy użyciu systemu kontroli wersji Git.
