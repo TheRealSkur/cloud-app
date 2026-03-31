@@ -79,18 +79,29 @@ Projekt korzysta z Node.js, dlatego nie używa migracji (jak w .NET). Struktura 
 
 ## 6.Deployment (Azure)
 
-Aplikacja została wdrożona w środowisku chmurowym Microsoft Azure z wykorzystaniem:
+Aplikacja została wdrożona w środowisku chmurowym Microsoft Azure (kontener Docker w Azure Container Apps,
+z wykorzystaniem Azure Container Registry do przechowywania obrazu) z wykorzystaniem:
 
 - Azure Container Apps – hosting backendu - endpointy:
 - tasks https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/tasks
 - health https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/health
 - Azure Container Registry – przechowywanie obrazów Docker
-- Azure Cosmos DB – baza danych NoSQL - https://cloud-app-krystian.documents.azure.com:443/
+- Azure Cosmos DB – baza danych NoSQL (wykorzystywana przez backend, brak publicznego endpointu HTTP) - https://cloud-app-krystian.documents.azure.com:443/
 <img width="1884" height="631" alt="Zrzut ekranu 2026-03-31 102827" src="https://github.com/user-attachments/assets/84b4c618-c68f-4651-8804-fbc64d424acc" />
 <img width="1027" height="212" alt="Zrzut ekranu 2026-03-31 103039" src="https://github.com/user-attachments/assets/daea3a8a-7ee6-4b5f-a670-435b1fb98746" />
 <img width="846" height="176" alt="Zrzut ekranu 2026-03-31 103052" src="https://github.com/user-attachments/assets/d072d1ff-bf3d-4978-8360-cbd16ca4af3d" />
 <img width="1552" height="163" alt="image" src="https://github.com/user-attachments/assets/87c90361-be82-45a5-8ca0-a898bef5397d" />
 
+## Konfiguracja środowiska
+
+Backend wykorzystuje zmienne środowiskowe:
+
+- COSMOS_ENDPOINT
+- COSMOS_KEY
+- COSMOS_DATABASE
+- COSMOS_CONTAINER
+- PORT
+- CORS_ORIGIN
 
 
 
