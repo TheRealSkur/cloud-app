@@ -45,6 +45,16 @@ function Dashboard() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/tasks/${id}`);
+      fetchTasks();
+    } catch (err) {
+      console.error("Błąd axios DELETE:", err);
+      alert("Nie udało się usunąć zadania");
+    }
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>Lista zadań</h1>
@@ -77,9 +87,17 @@ function Dashboard() {
 
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>
+          <li key={task.id} style={{ marginBottom: "10px" }}>
             <strong>{task.title}</strong>
             {task.description ? ` - ${task.description}` : ""}
+            <div style={{ marginTop: "6px" }}>
+              <button
+                onClick={() => handleDelete(task.id)}
+                style={{ padding: "6px 12px", cursor: "pointer" }}
+              >
+                Usuń
+              </button>
+            </div>
           </li>
         ))}
       </ul>
