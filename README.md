@@ -24,6 +24,9 @@ Backend udostępnia REST API pozwalające wykonywać operacje CRUD na zadaniach.
 - Swagger (OpenAPI)
 - Axios
 - Git
+- Azure Container Apps
+- Azure Key Vault
+- GitHub Actions (CI/CD)
 
 ## Architektura
 
@@ -100,37 +103,51 @@ Backend wykorzystuje zmienne środowiskowe:
 - PORT
 - CORS_ORIGIN
 
-## 7. Security (Azure Key Vault)
+## 7. Zarządzanie sekretami (Azure Key Vault)
 
-W celu zwiększenia bezpieczeństwa aplikacji zastosowano Azure Key Vault do przechowywania danych dostępowych do bazy Azure Cosmos DB.
+W ramach Artefaktu 7 usunięto dane wrażliwe z kodu aplikacji i przeniesiono je do Azure Key Vault.
 
-Zrealizowane kroki:
+Zastosowane rozwiązania:
+- przechowywanie connection string do Cosmos DB w Azure Key Vault jako sekret `DbConnectionString`
+- wykorzystanie Managed Identity do uwierzytelniania aplikacji w Azure
+- przypisanie roli **Key Vault Secrets User** dla aplikacji w Azure Container Apps
 
-- utworzono magazyn sekretów Azure Key Vault
-- dodano sekret `DbConnectionString` zawierający klucz dostępu do Cosmos DB
-- usunięto zmienną środowiskową `COSMOS_KEY` z konfiguracji aplikacji
-- zmodyfikowano kod backendu tak, aby korzystał z `DbConnectionString`
-- skonfigurowano Managed Identity dla Azure Container App
-- nadano aplikacji rolę `Key Vault Secrets User` w Key Vault
-- utworzono w Container App sekret jako referencję do Key Vault (`cosmos-key`)
-- podłączono sekret do zmiennej środowiskowej `DbConnectionString`
+Dzięki temu aplikacja nie przechowuje żadnych sekretów w kodzie ani w plikach konfiguracyjnych.
 
-Dzięki temu aplikacja nie przechowuje żadnych wrażliwych danych w kodzie ani konfiguracji środowiskowej.
+---
 
-### Test działania
+## 8. Testy i automatyzacja
 
-Po wprowadzeniu zmian aplikacja poprawnie komunikuje się z bazą danych:
+W ramach Artefaktu 8 zaimplementowano testy oraz automatyzację wdrożeń.
 
-- health endpoint:
-https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/health
+### Test jednostkowy
+- wykorzystano framework Jest
+- test `NewTask_ShouldNotBeCompleted` sprawdza poprawność logiki tworzenia zadania
+- test uruchamiany komendą `npm test`
 
-- tasks endpoint:
-https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/tasks
+### Automatyzacja (CI/CD)
+- skonfigurowano GitHub Actions do automatycznego wdrażania aplikacji
+- każde `git push` do gałęzi `main` uruchamia proces build i deploy do Azure Container Apps
 
-Aplikacja wykorzystuje mechanizm Managed Identity, dzięki czemu dostęp do sekretów odbywa się bez użycia jawnych kluczy.
+### Nowa funkcjonalność
+- dodano możliwość usuwania zadań z poziomu frontend (React)
+- wykorzystano endpoint `DELETE /tasks/:id` w backendzie
 
+---
 
+Dostępne endpointy:
+- /tasks
+- /health
 
+Aplikacja korzysta z:
+- Azure Container Apps
+- Azure Cosmos DB
+- Azure Key Vault
+- GitHub Actions (CI/CD)
+
+## Status projektu
+
+Projekt jest w pełni funkcjonalny i wdrożony w chmurze Azure.
 
 ## Status artefaktów
 
@@ -141,6 +158,7 @@ Aplikacja wykorzystuje mechanizm Managed Identity, dzięki czemu dostęp do sekr
 - [x] Artefakt 5 – przygotowanie aplikacji do środowiska chmurowego
 - [x] Artefakt 6 - Wdrożenie aplikacji do Azure.
 - [x] Artefakt 7 - Zabezpieczenie aplikacji.
+- [x] Artefakt 8 - Wybudowany bezpiecznik i wdrożony automat CI/CD.
 
 
 Projekt jest wersjonowany przy użyciu systemu kontroli wersji Git.
