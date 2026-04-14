@@ -1,0 +1,19 @@
+# env (sekrety)
+.env
+frontend/.env
+backend/.env
+
+# node
+node_modules
+npm-debug.log
+
+# build frontend
+frontend/dist
+
+# system
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
