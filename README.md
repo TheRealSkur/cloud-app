@@ -1,6 +1,6 @@
 # Cloud Task Manager
 
-Cloud Task Manager to aplikacja do zarządzania zadaniami oparta na architekturze klient–serwer. Projekt składa się z backendowego REST API oraz frontendowego interfejsu użytkownika. Backend został zbudowany w technologii ASP.NET Core, natomiast dane przechowywane są w bazie Microsoft SQL Server.
+Cloud Task Manager to aplikacja do zarządzania zadaniami oparta na architekturze klient–serwer. Projekt składa się z backendowego REST API oraz frontendowego interfejsu użytkownika. Backend został zbudowany w technologii Node.js, natomiast dane przechowywane są w bazie Azure Cosmos DB.
 
 ## Funkcjonalności
 
@@ -48,7 +48,6 @@ Endpointy można testować przy użyciu Swagger UI.
 
 ## Integracja z bazą danych
 
-Backend korzysta z Entity Framework Core do komunikacji z bazą danych Microsoft SQL Server.  
 Połączenie z bazą skonfigurowane jest przy użyciu connection string w pliku `appsettings.json`.
 
 Kontroler `TasksController` wykorzystuje kontekst bazy danych `AppDbContext` do wykonywania operacji CRUD.
@@ -78,6 +77,61 @@ Zadania można dodawać bezpośrednio w aplikacji React poprzez formularz, któr
 
 Projekt korzysta z Node.js, dlatego nie używa migracji (jak w .NET). Struktura danych w Cosmos DB jest obsługiwana bezpośrednio przez kod aplikacji.
 
+## 6.Deployment (Azure)
+
+Aplikacja została wdrożona w środowisku chmurowym Microsoft Azure (kontener Docker w Azure Container Apps,
+z wykorzystaniem Azure Container Registry do przechowywania obrazu) z wykorzystaniem:
+
+- Azure Container Apps – hosting backendu - endpointy:
+- tasks https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/tasks
+- health https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/health
+- Azure Container Registry – przechowywanie obrazów Docker
+- Azure Cosmos DB – baza danych NoSQL (dostępna tylko przez backend)
+
+
+## Konfiguracja środowiska
+
+Backend wykorzystuje zmienne środowiskowe:
+
+- COSMOS_ENDPOINT
+- COSMOS_KEY
+- COSMOS_DATABASE
+- COSMOS_CONTAINER
+- PORT
+- CORS_ORIGIN
+
+## 7. Security (Azure Key Vault)
+
+W celu zwiększenia bezpieczeństwa aplikacji zastosowano Azure Key Vault do przechowywania danych dostępowych do bazy Azure Cosmos DB.
+
+Zrealizowane kroki:
+
+- utworzono magazyn sekretów Azure Key Vault
+- dodano sekret `DbConnectionString` zawierający klucz dostępu do Cosmos DB
+- usunięto zmienną środowiskową `COSMOS_KEY` z konfiguracji aplikacji
+- zmodyfikowano kod backendu tak, aby korzystał z `DbConnectionString`
+- skonfigurowano Managed Identity dla Azure Container App
+- nadano aplikacji rolę `Key Vault Secrets User` w Key Vault
+- utworzono w Container App sekret jako referencję do Key Vault (`cosmos-key`)
+- podłączono sekret do zmiennej środowiskowej `DbConnectionString`
+
+Dzięki temu aplikacja nie przechowuje żadnych wrażliwych danych w kodzie ani konfiguracji środowiskowej.
+
+### Test działania
+
+Po wprowadzeniu zmian aplikacja poprawnie komunikuje się z bazą danych:
+
+- health endpoint:
+https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/health
+
+- tasks endpoint:
+https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io/tasks
+
+Aplikacja wykorzystuje mechanizm Managed Identity, dzięki czemu dostęp do sekretów odbywa się bez użycia jawnych kluczy.
+
+
+
+
 ## Status artefaktów
 
 - [x] Artefakt 1 – konfiguracja projektu i środowiska
@@ -85,6 +139,8 @@ Projekt korzysta z Node.js, dlatego nie używa migracji (jak w .NET). Struktura 
 - [x] Artefakt 3 – implementacja backend API
 - [x] Artefakt 4 – REST API, integracja z bazą danych, kontrolery oraz walidacja danych
 - [x] Artefakt 5 – przygotowanie aplikacji do środowiska chmurowego
+- [x] Artefakt 6 - Wdrożenie aplikacji do Azure.
+- [x] Artefakt 7 - Zabezpieczenie aplikacji.
 
 
 Projekt jest wersjonowany przy użyciu systemu kontroli wersji Git.
