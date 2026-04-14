@@ -16,7 +16,7 @@ app.use(express.json());
 const port = process.env.PORT || 8081;
 
 const endpoint = process.env.COSMOS_ENDPOINT;
-const key = process.env.COSMOS_KEY;
+const key = process.env.DbConnectionString;
 const databaseId = process.env.COSMOS_DATABASE || "CloudTaskManagerDb";
 const containerId = process.env.COSMOS_CONTAINER || "Tasks";
 
