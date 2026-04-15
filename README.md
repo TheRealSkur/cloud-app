@@ -11,7 +11,7 @@ Aplikacja umożliwia:
 - oznaczanie zadań jako wykonane
 - usuwanie zadań
 - użytkownik może dodawać zadania bezpośrednio z poziomu aplikacji React (bez użycia Swaggera)
-- dane przechowywane są w bazie Cosmos DB (emulator)
+- dane przechowywane są w bazie Azure Cosmos DB (chmura)
 
 Backend udostępnia REST API pozwalające wykonywać operacje CRUD na zadaniach.
 
@@ -19,7 +19,7 @@ Backend udostępnia REST API pozwalające wykonywać operacje CRUD na zadaniach.
 
 - Node.js (Express)
 - React (Vite)
-- Azure Cosmos DB Emulator (NoSQL)
+- - Azure Cosmos DB (NoSQL)
 - Docker / Docker Compose
 - Swagger (OpenAPI)
 - Axios
@@ -32,7 +32,7 @@ Backend udostępnia REST API pozwalające wykonywać operacje CRUD na zadaniach.
 
 Aplikacja składa się z trzech głównych komponentów:
 
-- **Frontend (React)** – interfejs użytkownika dostępny pod `http://localhost:8080`
+- **Frontend (React)** – http://localhost:8080 (lokalnie) / Azure Container Apps (deployment)
 - **Backend (Node.js)** – REST API dostępne pod `http://localhost:8081`
 - **Cosmos DB Emulator** – baza danych uruchamiana w kontenerze Docker
 
@@ -41,24 +41,21 @@ Aplikacja składa się z trzech głównych komponentów:
 
 API udostępnia endpointy umożliwiające zarządzanie zadaniami:
 
-- `GET /api/tasks` – pobranie wszystkich zadań
-- `GET /api/tasks/{id}` – pobranie pojedynczego zadania
-- `POST /api/tasks` – utworzenie nowego zadania
-- `PUT /api/tasks/{id}` – aktualizacja zadania
-- `DELETE /api/tasks/{id}` – usunięcie zadania
+- `GET /tasks`
+- `GET /tasks/{id}`
+- `POST /tasks`
+- `PUT /tasks/{id}`
+- `DELETE /tasks/{id}`
 
 Endpointy można testować przy użyciu Swagger UI.
 
 ## Integracja z bazą danych
 
-Połączenie z bazą skonfigurowane jest przy użyciu connection string w pliku `appsettings.json`.
+Połączenie z bazą danych realizowane jest przy użyciu zmiennych środowiskowych (Azure Key Vault).
 
-Kontroler `TasksController` wykorzystuje kontekst bazy danych `AppDbContext` do wykonywania operacji CRUD.
+Backend (Node.js) komunikuje się bezpośrednio z Azure Cosmos DB przy użyciu SDK @azure/cosmos.
 
-Dodatkowo zastosowano walidację danych przy użyciu atrybutów DataAnnotations, takich jak:
-
-- `[Required]`
-- `[StringLength]`
+Walidacja danych realizowana jest w backendzie (Node.js) poprzez sprawdzanie danych wejściowych w kodzie aplikacji.
 
 API zwraca odpowiednie kody HTTP:
 
@@ -91,13 +88,16 @@ z wykorzystaniem Azure Container Registry do przechowywania obrazu) z wykorzysta
 - Azure Container Registry – przechowywanie obrazów Docker
 - Azure Cosmos DB – baza danych NoSQL (dostępna tylko przez backend)
 
+### Link do aplikacji:
+https://cloud-task-manager-api.bluebeach-e53e0737.germanywestcentral.azurecontainerapps.io
+
 
 ## Konfiguracja środowiska
 
 Backend wykorzystuje zmienne środowiskowe:
 
 - COSMOS_ENDPOINT
-- COSMOS_KEY
+- DbConnectionString (przechowywany w Azure Key Vault)
 - COSMOS_DATABASE
 - COSMOS_CONTAINER
 - PORT
@@ -132,6 +132,7 @@ W ramach Artefaktu 8 zaimplementowano testy oraz automatyzację wdrożeń.
 ### Nowa funkcjonalność
 - dodano możliwość usuwania zadań z poziomu frontend (React)
 - wykorzystano endpoint `DELETE /tasks/:id` w backendzie
+- Dodano zielony kolor do napisów i obramowań w aplikacji
 
 ---
 
@@ -162,3 +163,4 @@ Projekt jest w pełni funkcjonalny i wdrożony w chmurze Azure.
 
 
 Projekt jest wersjonowany przy użyciu systemu kontroli wersji Git.
+Aplikacja dostępna publicznie w chmurze Azure i zintegrowana z bazą danych Cosmos DB.
