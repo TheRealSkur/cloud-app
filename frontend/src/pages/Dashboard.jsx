@@ -6,9 +6,11 @@ function Dashboard() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL || "";
+
   const fetchTasks = () => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/tasks`)
+      .get(`${API_URL}/tasks`)
       .then((res) => {
         setTasks(Array.isArray(res.data) ? res.data : []);
       })
@@ -31,7 +33,7 @@ function Dashboard() {
     }
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/tasks`, {
+      await axios.post(`${API_URL}/tasks`, {
         title,
         description,
       });
@@ -47,7 +49,7 @@ function Dashboard() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/tasks/${id}`);
+      await axios.delete(`${API_URL}/tasks/${id}`);
       fetchTasks();
     } catch (err) {
       console.error("Błąd axios DELETE:", err);
@@ -55,8 +57,21 @@ function Dashboard() {
     }
   };
 
+  // 🔥 NOWA FUNKCJA (8.3)
+  const toggleCompleted = async (task) => {
+    try {
+      await axios.put(`${API_URL}/tasks/${task.id}`, {
+        ...task,
+        completed: !task.completed,
+      });
+      fetchTasks();
+    } catch (err) {
+      console.error("Błąd toggle:", err);
+    }
+  };
+
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", color: "#4CAF50" }}>
       <h1>Lista zadań</h1>
 
       <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
@@ -87,9 +102,30 @@ function Dashboard() {
 
       <ul>
         {tasks.map((task) => (
-          <li key={task.id} style={{ marginBottom: "10px" }}>
-            <strong>{task.title}</strong>
+          <li
+            key={task.id}
+            style={{
+              marginBottom: "10px",
+              backgroundColor: "#1e1e1e",
+              padding: "10px",
+              borderRadius: "8px",
+              border: "1px solid #4CAF50",
+            }}
+          >
+            {/* 🔥 ZMIANA FUNKCJI */}
+            <strong
+              onClick={() => toggleCompleted(task)}
+              style={{
+                cursor: "pointer",
+                textDecoration: task.completed ? "line-through" : "none",
+                color: task.completed ? "#888" : "#4CAF50",
+              }}
+            >
+              {task.title}
+            </strong>
+
             {task.description ? ` - ${task.description}` : ""}
+
             <div style={{ marginTop: "6px" }}>
               <button
                 onClick={() => handleDelete(task.id)}
