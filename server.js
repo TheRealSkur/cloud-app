@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const { CosmosClient } = require("@azure/cosmos");
@@ -47,7 +48,7 @@ function createCosmosClient() {
 async function initCosmos() {
   if (!endpoint || !key) {
     throw new Error(
-      "Brakuje COSMOS_ENDPOINT albo COSMOS_KEY w zmiennych środowiskowych."
+      "Brakuje COSMOS_ENDPOINT albo DbConnectionString w zmiennych środowiskowych."
     );
   }
 
@@ -177,6 +178,20 @@ app.delete("/tasks/:id", async (req, res) => {
     console.error("DELETE /tasks/:id error:", error);
     res.status(500).json({ message: "Błąd usuwania zadania" });
   }
+});
+
+// FRONTEND VITE
+const frontendDistPath = path.join(__dirname, "frontend", "dist");
+app.use(express.static(frontendDistPath));
+
+// ROOT
+app.get("/", (req, res) => {
+  res.sendFile(path.join(frontendDistPath, "index.html"));
+});
+
+// SPA fallback
+app.get(/^(?!\/(tasks|health)).*/, (req, res) => {
+  res.sendFile(path.join(frontendDistPath, "index.html"));
 });
 
 async function startServer() {
